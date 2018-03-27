@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Игорь Симоненко](https://up.htmlacademy.ru/javascript/13/user/109617).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Стрелков](https://htmlacademy.ru/profile/id427611).
 
 ---
 
