@@ -4,7 +4,7 @@ var getRandomNumber = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
-var getRandomPhoto = function (photoNum, comments, description) {
+var getRandomPicture = function (photoNum, comments, description) {
 
   var randPhoto = {};
 
@@ -41,48 +41,50 @@ var DESCRIPTION_LIST = [
   'Вот это тачка!'
 ];
 
-var photoList = [];
+var pictureList = [];
 
-for (var i = 0; i < 15; i++) {
-  photoList[i] = getRandomPhoto(i + 1, COMMENT_LIST, DESCRIPTION_LIST);
+for (var i = 0; i < 25; i++) {
+  pictureList[i] = getRandomPicture(i + 1, COMMENT_LIST, DESCRIPTION_LIST);
 }
 
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture__link');
-var pictureList = document.querySelector('.pictures');
+var pictureBlock = document.querySelector('.pictures');
 
 var renderPicture = function (url, likes, comments) {
+
   var pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__stat--comments').textContent = comments;
   pictureElement.querySelector('.picture__stat--likes').textContent = likes;
+  pictureElement.querySelector('.picture__stat--comments').textContent = comments;
 
   return pictureElement;
 };
 
 var fragment = document.createDocumentFragment();
 
-for (i = 0; i < photoList.length; i++) {
-  fragment.appendChild(renderPicture(photoList[i].url, photoList[i].likes, photoList[i].commentList.length));
+for (i = 0; i < pictureList.length; i++) {
+  fragment.appendChild(renderPicture(pictureList[i].url, pictureList[i].likes, pictureList[i].commentList.length));
 }
 
-pictureList.appendChild(fragment);
+pictureBlock.appendChild(fragment);
 
 var bigPictureBlock = document.querySelector('.big-picture');
 bigPictureBlock.classList.remove('hidden');
 
-bigPictureBlock.querySelector('.big-picture__img').children.src = photoList[0].url;
-bigPictureBlock.querySelector('.likes-count').textContent = photoList[0].likes;
-bigPictureBlock.querySelector('.comments-count').textContent = photoList[0].commentList.length;
+bigPictureBlock.querySelector('.big-picture__img').children[0].src = pictureList[0].url;
+bigPictureBlock.querySelector('.likes-count').textContent = pictureList[0].likes;
+bigPictureBlock.querySelector('.comments-count').textContent = pictureList[0].commentList.length;
+
 var commentsBlock = bigPictureBlock.querySelectorAll('.social__comment');
 
-for (i = 0; i < photoList[1].commentList.length; i++) {
-  commentsBlock[i].children.src = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
-  commentsBlock[i].textContent = photoList[0].commentList[i];
+for (i = 0; i < pictureList[1].commentList.length; i++) {
+  commentsBlock[i].children[0].src = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
+  commentsBlock[i].childNodes[2].textContent = pictureList[0].commentList[i];
 }
 
-if (photoList[0].commentList.length === 1) {
-  commentsBlock[1].classList.add('hidden');
+if (pictureList[0].commentList.length === 1) {
+  commentsBlock[1].classList.add('visually-hidden');
 }
 
 bigPictureBlock.querySelector('.social__comment-count').classList.add('visually-hidden');
