@@ -83,6 +83,15 @@ var scalePinValue = scalePinBlock.querySelector('.scale__value');
 var MIN_PIN_X = 443;
 var MAX_PIN_X = 903;
 
+var getCurrentFilter = function () {
+  for (i = uploadPreview.classList.length - 1; i > 0; i--) {
+    if (uploadPreview.classList[i].match('effects__preview--')) {
+      return uploadPreview.classList[i].substring(18);
+    }
+  }
+  return 'none';
+};
+
 var getFilterStyle = function (effectName, ratio) {
   scalePinBlock.classList.remove('hidden');
 
@@ -112,7 +121,7 @@ var openUploadOverlay = function () {
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onUploadOverlayEscPress);
   uploadPreview.style.transform = 'scale(1)';
-  getFilterStyle(uploadPreview.classList[1], scalePinValue.value);
+  getFilterStyle(getCurrentFilter(), scalePinValue.value);
 };
 
 var closeUploadOverlay = function () {
@@ -136,22 +145,29 @@ var resizeControlPlus = uploadOverlay.querySelector('.resize__control--plus');
 var resizeControlValue = uploadOverlay.querySelector('.resize__control--value');
 
 var getCurrentImgSize = function (scale) {
-  return +scale.substring(6, scale.length - 1);
+  if (!scale) {
+    return 1;
+  }
+
+  return Number(scale.substring(6, scale.length - 1));
 };
 
 var currentSize = getCurrentImgSize(uploadPreview.style.transform);
+var ZOOM_MIN = 0.25;
+var ZOOM_MAX = 1;
+var ZOOM_STEP = 0.25;
 
 resizeControlMinus.addEventListener('click', function () {
-  if (currentSize > 0.25) {
-    currentSize = currentSize - 0.25;
+  if (currentSize > ZOOM_MIN) {
+    currentSize = currentSize - ZOOM_STEP;
     uploadPreview.style.transform = 'scale(' + currentSize + ')';
     resizeControlValue.value = currentSize * 100 + '%';
   }
 });
 
 resizeControlPlus.addEventListener('click', function () {
-  if (currentSize < 1) {
-    currentSize = currentSize + 0.25;
+  if (currentSize < ZOOM_MAX) {
+    currentSize = currentSize + ZOOM_STEP;
     uploadPreview.style.transform = 'scale(' + currentSize + ')';
     resizeControlValue.value = currentSize * 100 + '%';
   }
@@ -181,7 +197,7 @@ scalePinElement.addEventListener('mouseup', function (evt) {
   var currentPinX = evt.clientX;
   var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
   scalePinValue.value = currentPinRatio;
-  getFilterStyle(uploadPreview.classList[1], scalePinValue.value);
+  getFilterStyle(getCurrentFilter(), scalePinValue.value);
 });
 
 // Работа с большой фотографией
