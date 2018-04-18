@@ -84,7 +84,7 @@ var MIN_PIN_X = 443;
 var MAX_PIN_X = 903;
 
 var getCurrentFilter = function () {
-  for (i = uploadPreview.classList.length - 1; i > 0; i--) {
+  for (var i = uploadPreview.classList.length - 1; i > 0; i--) {
     if (uploadPreview.classList[i].match('effects__preview--')) {
       return uploadPreview.classList[i].substring(18);
     }
