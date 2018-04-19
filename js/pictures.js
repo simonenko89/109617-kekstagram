@@ -257,3 +257,56 @@ pictureBlock.addEventListener('click', onPictureBlockClick);
 bigPictureClose.addEventListener('click', function () {
   closeBigPicture();
 });
+
+// валидация формы
+var submitFormButton = document.querySelector('.img-upload__submit');
+var hashtagList = document.querySelector('.text__hashtags');
+var textComment = document.querySelector('.text__description');
+
+var isSimilarElements = function (checkingArray) {
+  for (var i = 0; i < checkingArray.length; i++) {
+    var checkingArrayElement = checkingArray[i];
+    for (var j = i + 1; j < checkingArray.length; j++) {
+      if (checkingArrayElement.toLowerCase() === checkingArray[j].toLowerCase()) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+var getTagsValidityError = function (checkingTagString) {
+  var tagList = checkingTagString.split(' ');
+
+  if (tagList.length > 5) {
+    return 'Больше 5 тэгов';
+  }
+  if (isSimilarElements(tagList)) {
+    return 'Повторяющиеся тэги';
+  }
+
+  for (var i = 0; i < tagList.length; i++) {
+    if (tagList[i].charAt(0) !== '#' && tagList[i].length > 0) {
+      return 'Не хватает # в начале тэга';
+    } else if (!tagList[i].charAt(1) && tagList[i].length > 0) {
+      return 'Одна решетка - это не тэг';
+    } else if (tagList[i].length > 20) {
+      return 'Больше 20 символов в тэге';
+    }
+  }
+
+  return '';
+};
+
+var onClickSubmitFormButton = function () {
+  if (getTagsValidityError(hashtagList.value)) {
+    hashtagList.setCustomValidity(getTagsValidityError(hashtagList.value));
+  }
+};
+
+hashtagList.addEventListener('focus', function (evt) {
+  evt.preventDefault();
+});
+
+submitFormButton.addEventListener('click', onClickSubmitFormButton);
