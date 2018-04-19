@@ -84,9 +84,9 @@ var MIN_PIN_X = 443;
 var MAX_PIN_X = 903;
 
 var getCurrentFilter = function () {
-  for (var i = uploadPreview.classList.length - 1; i > 0; i--) {
-    if (uploadPreview.classList[i].match('effects__preview--')) {
-      return uploadPreview.classList[i].substring(18);
+  for (var k = uploadPreview.classList.length - 1; k > 0; k--) {
+    if (uploadPreview.classList[k].match('effects__preview--')) {
+      return uploadPreview.classList[k].substring(18);
     }
   }
   return 'none';
@@ -264,9 +264,9 @@ var hashtagList = document.querySelector('.text__hashtags');
 var textComment = document.querySelector('.text__description');
 
 var isSimilarElements = function (checkingArray) {
-  for (var i = 0; i < checkingArray.length; i++) {
-    var checkingArrayElement = checkingArray[i];
-    for (var j = i + 1; j < checkingArray.length; j++) {
+  for (var h = 0; h < checkingArray.length; h++) {
+    var checkingArrayElement = checkingArray[h];
+    for (var j = h + 1; j < checkingArray.length; j++) {
       if (checkingArrayElement.toLowerCase() === checkingArray[j].toLowerCase()) {
         return true;
       }
@@ -286,12 +286,12 @@ var getTagsValidityError = function (checkingTagString) {
     return 'Повторяющиеся тэги';
   }
 
-  for (var i = 0; i < tagList.length; i++) {
-    if (tagList[i].charAt(0) !== '#' && tagList[i].length > 0) {
+  for (var l = 0; l < tagList.length; l++) {
+    if (tagList[l].charAt(0) !== '#' && tagList[l].length > 0) {
       return 'Не хватает # в начале тэга';
-    } else if (!tagList[i].charAt(1) && tagList[i].length > 0) {
+    } else if (!tagList[l].charAt(1) && tagList[l].length > 0) {
       return 'Одна решетка - это не тэг';
-    } else if (tagList[i].length > 20) {
+    } else if (tagList[l].length > 20) {
       return 'Больше 20 символов в тэге';
     }
   }
