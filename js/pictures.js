@@ -309,4 +309,8 @@ hashtagList.addEventListener('focus', function (evt) {
   evt.preventDefault();
 });
 
+textComment.addEventListener('focus', function (evt) {
+  evt.preventDefault();
+});
+
 submitFormButton.addEventListener('click', onClickSubmitFormButton);
