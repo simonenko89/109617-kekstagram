@@ -302,15 +302,17 @@ var getTagsValidityError = function (checkingTagString) {
 var onClickSubmitFormButton = function () {
   if (getTagsValidityError(hashtagList.value)) {
     hashtagList.setCustomValidity(getTagsValidityError(hashtagList.value));
+  } else {
+    hashtagList.setCustomValidity('');
   }
 };
 
-hashtagList.addEventListener('focus', function (evt) {
-  evt.preventDefault();
+hashtagList.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
 });
 
-textComment.addEventListener('focus', function (evt) {
-  evt.preventDefault();
+textComment.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
 });
 
 submitFormButton.addEventListener('click', onClickSubmitFormButton);
