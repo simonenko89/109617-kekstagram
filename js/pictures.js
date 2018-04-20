@@ -84,9 +84,9 @@ var MIN_PIN_X = 443;
 var MAX_PIN_X = 903;
 
 var getCurrentFilter = function () {
-  for (var i = uploadPreview.classList.length - 1; i > 0; i--) {
-    if (uploadPreview.classList[i].match('effects__preview--')) {
-      return uploadPreview.classList[i].substring(18);
+  for (var k = uploadPreview.classList.length - 1; k > 0; k--) {
+    if (uploadPreview.classList[k].match('effects__preview--')) {
+      return uploadPreview.classList[k].substring(18);
     }
   }
   return 'none';
@@ -257,3 +257,62 @@ pictureBlock.addEventListener('click', onPictureBlockClick);
 bigPictureClose.addEventListener('click', function () {
   closeBigPicture();
 });
+
+// валидация формы
+var submitFormButton = document.querySelector('.img-upload__submit');
+var hashtagList = document.querySelector('.text__hashtags');
+var textComment = document.querySelector('.text__description');
+
+var isSimilarElements = function (checkingArray) {
+  for (var h = 0; h < checkingArray.length; h++) {
+    var checkingArrayElement = checkingArray[h];
+    for (var j = h + 1; j < checkingArray.length; j++) {
+      if (checkingArrayElement.toLowerCase() === checkingArray[j].toLowerCase()) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+var getTagsValidityError = function (checkingTagString) {
+  var tagList = checkingTagString.split(' ');
+
+  if (tagList.length > 5) {
+    return 'Больше 5 тэгов';
+  }
+  if (isSimilarElements(tagList)) {
+    return 'Повторяющиеся тэги';
+  }
+
+  for (var l = 0; l < tagList.length; l++) {
+    if (tagList[l].charAt(0) !== '#' && tagList[l].length > 0) {
+      return 'Не хватает # в начале тэга';
+    } else if (!tagList[l].charAt(1) && tagList[l].length > 0) {
+      return 'Одна решетка - это не тэг';
+    } else if (tagList[l].length > 20) {
+      return 'Больше 20 символов в тэге';
+    }
+  }
+
+  return '';
+};
+
+var onClickSubmitFormButton = function () {
+  if (getTagsValidityError(hashtagList.value)) {
+    hashtagList.setCustomValidity(getTagsValidityError(hashtagList.value));
+  } else {
+    hashtagList.setCustomValidity('');
+  }
+};
+
+hashtagList.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
+});
+
+textComment.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
+});
+
+submitFormButton.addEventListener('click', onClickSubmitFormButton);
