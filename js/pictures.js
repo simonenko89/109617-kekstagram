@@ -78,7 +78,6 @@ var uploadPreview = uploadOverlay.querySelector('.img-upload__preview');
 
 var effectsList = uploadOverlay.querySelectorAll('.effects__radio');
 var scalePinBlock = uploadOverlay.querySelector('.img-upload__scale');
-var scalePinElement = scalePinBlock.querySelector('.scale__pin');
 var scalePinValue = scalePinBlock.querySelector('.scale__value');
 var MIN_PIN_X = 443;
 var MAX_PIN_X = 903;
@@ -191,14 +190,6 @@ for (i = 0; i < effectsList.length; i++) {
     getFilterStyle(evt.target.value, scalePinValue.value);
   });
 }
-
-// Работа с пином для изменения эффектов
-scalePinElement.addEventListener('mouseup', function (evt) {
-  var currentPinX = evt.clientX;
-  var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
-  scalePinValue.value = currentPinRatio;
-  getFilterStyle(getCurrentFilter(), scalePinValue.value);
-});
 
 // Работа с большой фотографией
 var bigPicture = document.querySelector('.big-picture');
@@ -316,3 +307,40 @@ textComment.addEventListener('focus', function () {
 });
 
 submitFormButton.addEventListener('click', onClickSubmitFormButton);
+
+
+// Работа с пином для изменения эффектов
+var imgUploadScale = document.querySelector('.img-upload__scale');
+var scalePin = imgUploadScale.querySelector('.scale__pin');
+
+scalePin.addEventListener('mousedown', function () {
+
+  var onImgUploadScaleMove = function (moveEvt) {
+    var currentPinX = moveEvt.clientX;
+    var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
+    if (currentPinRatio > 100) {
+      currentPinRatio = 100;
+    } else if (currentPinRatio < 0) {
+      currentPinRatio = 0;
+    }
+    scalePin.style.left = currentPinRatio + '%';
+    imgUploadScale.querySelector('.scale__level').style.width = currentPinRatio + '%';
+  };
+
+  var onImgUploadScaleUp = function (upEvt) {
+    var currentPinX = upEvt.clientX;
+    var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
+    if (currentPinRatio > 100) {
+      currentPinRatio = 100;
+    } else if (currentPinRatio < 0) {
+      currentPinRatio = 0;
+    }
+    scalePinValue.value = currentPinRatio;
+    getFilterStyle(getCurrentFilter(), scalePinValue.value);
+
+    imgUploadScale.removeEventListener('mousemove', onImgUploadScaleMove);
+  };
+
+  imgUploadScale.addEventListener('mousemove', onImgUploadScaleMove);
+  imgUploadScale.addEventListener('mouseup', onImgUploadScaleUp);
+});
