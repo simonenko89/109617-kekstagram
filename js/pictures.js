@@ -79,8 +79,6 @@ var uploadPreview = uploadOverlay.querySelector('.img-upload__preview');
 var effectsList = uploadOverlay.querySelectorAll('.effects__radio');
 var scalePinBlock = uploadOverlay.querySelector('.img-upload__scale');
 var scalePinValue = scalePinBlock.querySelector('.scale__value');
-var MIN_PIN_X = 443;
-var MAX_PIN_X = 903;
 
 var getCurrentFilter = function () {
   for (var k = uploadPreview.classList.length - 1; k > 0; k--) {
@@ -203,8 +201,16 @@ var onBigPictureEscPress = function (evt) {
 
 var onPictureBlockClick = function (evt) {
   var clickedSrc = evt.target.src;
-  var clickedLikes = evt.target.parentElement.querySelector('.picture__stat--likes').textContent;
-  var clickedCommentsCnt = evt.target.parentElement.querySelector('.picture__stat--comments').textContent;
+  var clickedLikes = '';
+  var clickedCommentsCnt = '';
+
+  if (evt.target.parentElement.querySelector('.picture__stat--likes')) {
+    clickedLikes = evt.target.parentElement.querySelector('.picture__stat--likes').textContent;
+  }
+
+  if (evt.target.parentElement.querySelector('.picture__stat--comments')) {
+    clickedCommentsCnt = evt.target.parentElement.querySelector('.picture__stat--comments').textContent;
+  }
 
   if (clickedSrc && clickedLikes && clickedCommentsCnt) {
     bigPicture.classList.remove('hidden');
@@ -313,11 +319,19 @@ submitFormButton.addEventListener('click', onClickSubmitFormButton);
 var imgUploadScale = document.querySelector('.img-upload__scale');
 var scalePin = imgUploadScale.querySelector('.scale__pin');
 
+var getcurrentPinRatio = function (pinX) {
+
+  var minPinX = imgUploadScale.querySelector('.scale__line').getBoundingClientRect().left;
+  var maxPinX = imgUploadScale.querySelector('.scale__line').getBoundingClientRect().right;
+
+  return Math.round(100 * (pinX - minPinX) / (maxPinX - minPinX));
+};
+
 scalePin.addEventListener('mousedown', function () {
 
   var onImgUploadScaleMove = function (moveEvt) {
     var currentPinX = moveEvt.clientX;
-    var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
+    var currentPinRatio = getcurrentPinRatio(currentPinX);
     if (currentPinRatio > 100) {
       currentPinRatio = 100;
     } else if (currentPinRatio < 0) {
@@ -329,7 +343,7 @@ scalePin.addEventListener('mousedown', function () {
 
   var onImgUploadScaleUp = function (upEvt) {
     var currentPinX = upEvt.clientX;
-    var currentPinRatio = Math.round(100 * (currentPinX - MIN_PIN_X) / (MAX_PIN_X - MIN_PIN_X));
+    var currentPinRatio = getcurrentPinRatio(currentPinX);
     if (currentPinRatio > 100) {
       currentPinRatio = 100;
     } else if (currentPinRatio < 0) {
@@ -338,9 +352,9 @@ scalePin.addEventListener('mousedown', function () {
     scalePinValue.value = currentPinRatio;
     getFilterStyle(getCurrentFilter(), scalePinValue.value);
 
-    imgUploadScale.removeEventListener('mousemove', onImgUploadScaleMove);
+    document.removeEventListener('mousemove', onImgUploadScaleMove);
   };
 
-  imgUploadScale.addEventListener('mousemove', onImgUploadScaleMove);
-  imgUploadScale.addEventListener('mouseup', onImgUploadScaleUp);
+  document.addEventListener('mousemove', onImgUploadScaleMove);
+  document.addEventListener('mouseup', onImgUploadScaleUp);
 });
