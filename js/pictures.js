@@ -319,7 +319,7 @@ submitFormButton.addEventListener('click', onClickSubmitFormButton);
 var imgUploadScale = document.querySelector('.img-upload__scale');
 var scalePin = imgUploadScale.querySelector('.scale__pin');
 
-var getcurrentPinRatio = function (pinX) {
+var getСurrentPinRatio = function (pinX) {
 
   var minPinX = imgUploadScale.querySelector('.scale__line').getBoundingClientRect().left;
   var maxPinX = imgUploadScale.querySelector('.scale__line').getBoundingClientRect().right;
@@ -330,8 +330,9 @@ var getcurrentPinRatio = function (pinX) {
 scalePin.addEventListener('mousedown', function () {
 
   var onImgUploadScaleMove = function (moveEvt) {
+    moveEvt.preventDefault();
     var currentPinX = moveEvt.clientX;
-    var currentPinRatio = getcurrentPinRatio(currentPinX);
+    var currentPinRatio = getСurrentPinRatio(currentPinX);
     if (currentPinRatio > 100) {
       currentPinRatio = 100;
     } else if (currentPinRatio < 0) {
@@ -343,7 +344,7 @@ scalePin.addEventListener('mousedown', function () {
 
   var onImgUploadScaleUp = function (upEvt) {
     var currentPinX = upEvt.clientX;
-    var currentPinRatio = getcurrentPinRatio(currentPinX);
+    var currentPinRatio = getСurrentPinRatio(currentPinX);
     if (currentPinRatio > 100) {
       currentPinRatio = 100;
     } else if (currentPinRatio < 0) {
