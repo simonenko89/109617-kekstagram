@@ -46,4 +46,5 @@
   }
 
   window.pictureList = pictureList;
+  // console.log(pictureList);
 })();

@@ -15,13 +15,16 @@
     return pictureElement;
   };
 
-  var fragment = document.createDocumentFragment();
+  var onSuccess = function (data) {
+    var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < window.pictureList.length; i++) {
-    fragment.appendChild(renderPicture(window.pictureList[i].url
-        , window.pictureList[i].likes
-        , window.pictureList[i].commentList.length));
-  }
+    for (var i = 0; i < 25; i++) {
+      fragment.appendChild(renderPicture(data[i].url, data[i].likes, data[i].comments.length));
+    }
 
-  pictureBlock.appendChild(fragment);
+    pictureBlock.appendChild(fragment);
+  };
+
+  window.backend.load(onSuccess, window.util.onError);
+
 })();
