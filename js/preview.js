@@ -35,18 +35,18 @@
       bigPicture.querySelector('.likes-count').textContent = clickedLikes;
       bigPicture.querySelector('.comments-count').textContent = clickedCommentsCnt;
 
-      for (var i = 0; i < window.pictureList.length; i++) {
-        if (clickedSrc.match(window.pictureList[i].url)) {
-          var currentPictureElement = window.pictureList[i];
+      for (var i = 0; i < window.picture.pictureList.length; i++) {
+        if (clickedSrc.match(window.picture.pictureList[i].url)) {
+          var currentPictureElement = window.picture.pictureList[i];
         }
       }
 
-      for (i = 0; i < currentPictureElement.commentList.length; i++) {
+      for (i = 0; i < commentsBlock.length; i++) {
         commentsBlock[i].children[0].src = 'img/avatar-' + window.util.getRandomNumber(1, 6) + '.svg';
-        commentsBlock[i].childNodes[2].textContent = currentPictureElement.commentList[i];
+        commentsBlock[i].childNodes[2].textContent = currentPictureElement.comments[i];
       }
 
-      if (currentPictureElement.commentList.length === 1) {
+      if (currentPictureElement.comments.length === 1) {
         commentsBlock[1].classList.add('visually-hidden');
       }
 

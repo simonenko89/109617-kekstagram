@@ -224,9 +224,12 @@
 
   var form = document.querySelector('.img-upload__form');
 
-  form.addEventListener('submit', function () {
+  form.addEventListener('submit', function (evt) {
+
     window.backend.upload(new FormData(form), function () {
       uploadOverlay.classList.add('hidden');
-    });
-  }, window.util.onError);
+    }, window.util.onError);
+
+    evt.preventDefault();
+  });
 })();
