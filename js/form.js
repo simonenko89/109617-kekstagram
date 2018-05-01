@@ -227,7 +227,7 @@
   form.addEventListener('submit', function (evt) {
 
     window.backend.upload(new FormData(form), function () {
-      uploadOverlay.classList.add('hidden');
+      closeUploadOverlay();
     }, window.util.onError);
 
     evt.preventDefault();
