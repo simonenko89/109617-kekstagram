@@ -5,7 +5,9 @@
   var pictureBlock = document.querySelector('.pictures');
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
-  var commentsBlock = bigPicture.querySelectorAll('.social__comment');
+  var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+  var commentBlock = bigPicture.querySelector('.social__comments');
+  var socialCaption = bigPicture.querySelector('.social__caption');
 
   var onBigPictureEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
@@ -41,14 +43,23 @@
         }
       }
 
-      for (i = 0; i < commentsBlock.length; i++) {
-        commentsBlock[i].children[0].src = 'img/avatar-' + window.util.getRandomNumber(1, 6) + '.svg';
-        commentsBlock[i].childNodes[2].textContent = currentPictureElement.comments[i];
-      }
+      socialCaption.textContent = currentPictureElement.comments[0];
 
-      if (currentPictureElement.comments.length === 1) {
-        commentsBlock[1].classList.add('visually-hidden');
+      var renderComment = function (logoLink, comment) {
+        var commentElement = commentTemplate.cloneNode(true);
+
+        commentElement.children[0].src = logoLink;
+        commentElement.childNodes[2].textContent = comment;
+
+        return commentElement;
+      };
+
+      var fragment = document.createDocumentFragment();
+      for (i = 0; i < currentPictureElement.comments.length; i++) {
+        var logoSrc = 'img/avatar-' + window.util.getRandomNumber(1, 6) + '.svg';
+        fragment.appendChild(renderComment(logoSrc, currentPictureElement.comments[i]));
       }
+      commentBlock.appendChild(fragment);
 
       bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
       bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
@@ -59,6 +70,7 @@
     bigPicture.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', onBigPictureEscPress);
+    commentBlock.textContent = '';
   };
 
   pictureBlock.addEventListener('click', onPictureBlockClick);
