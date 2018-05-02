@@ -221,4 +221,14 @@
     document.addEventListener('mousemove', onImgUploadScaleMove);
     document.addEventListener('mouseup', onImgUploadScaleUp);
   });
+
+  var form = document.querySelector('.img-upload__form');
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    window.backend.upload(new FormData(form), function () {
+      closeUploadOverlay();
+    }, window.util.onError);
+  });
 })();
