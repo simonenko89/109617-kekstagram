@@ -2,6 +2,9 @@
 
 (function () {
 // Работа с загрузкой файлов
+  var ZOOM_MIN = 0.25;
+  var ZOOM_MAX = 1;
+  var ZOOM_STEP = 0.25;
   var uploadInput = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var uploadCancel = uploadOverlay.querySelector('.img-upload__cancel');
@@ -81,9 +84,6 @@
   };
 
   var currentSize = getCurrentImgSize(uploadPreview.style.transform);
-  var ZOOM_MIN = 0.25;
-  var ZOOM_MAX = 1;
-  var ZOOM_STEP = 0.25;
 
   resizeControlMinus.addEventListener('click', function () {
     if (currentSize > ZOOM_MIN) {
@@ -120,7 +120,7 @@
 
   // Валидация формы
   var submitFormButton = document.querySelector('.img-upload__submit');
-  var hashtagList = document.querySelector('.text__hashtags');
+  var hashtagsList = document.querySelector('.text__hashtags');
   var textComment = document.querySelector('.text__description');
 
   var isSimilarElements = function (checkingArray) {
@@ -137,21 +137,21 @@
   };
 
   var getTagsValidityError = function (checkingTagString) {
-    var tagList = checkingTagString.split(' ');
+    var tagsList = checkingTagString.split(' ');
 
-    if (tagList.length > 5) {
+    if (tagsList.length > 5) {
       return 'Больше 5 тэгов';
     }
-    if (isSimilarElements(tagList)) {
+    if (isSimilarElements(tagsList)) {
       return 'Повторяющиеся тэги';
     }
 
-    for (var l = 0; l < tagList.length; l++) {
-      if (tagList[l].charAt(0) !== '#' && tagList[l].length > 0) {
+    for (var l = 0; l < tagsList.length; l++) {
+      if (tagsList[l].charAt(0) !== '#' && tagsList[l].length > 0) {
         return 'Не хватает # в начале тэга';
-      } else if (!tagList[l].charAt(1) && tagList[l].length > 0) {
+      } else if (!tagsList[l].charAt(1) && tagsList[l].length > 0) {
         return 'Одна решетка - это не тэг';
-      } else if (tagList[l].length > 20) {
+      } else if (tagsList[l].length > 20) {
         return 'Больше 20 символов в тэге';
       }
     }
@@ -160,14 +160,14 @@
   };
 
   var onClickSubmitFormButton = function () {
-    if (getTagsValidityError(hashtagList.value)) {
-      hashtagList.setCustomValidity(getTagsValidityError(hashtagList.value));
+    if (getTagsValidityError(hashtagsList.value)) {
+      hashtagsList.setCustomValidity(getTagsValidityError(hashtagsList.value));
     } else {
-      hashtagList.setCustomValidity('');
+      hashtagsList.setCustomValidity('');
     }
   };
 
-  hashtagList.addEventListener('focus', function () {
+  hashtagsList.addEventListener('focus', function () {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
   });
 
@@ -193,6 +193,7 @@
 
     var onImgUploadScaleMove = function (moveEvt) {
       moveEvt.preventDefault();
+
       var currentPinX = moveEvt.clientX;
       var currentPinRatio = getСurrentPinRatio(currentPinX);
       if (currentPinRatio > 100) {
@@ -219,7 +220,7 @@
     };
 
     document.addEventListener('mousemove', onImgUploadScaleMove);
-    document.addEventListener('mouseup', onImgUploadScaleUp);
+    scalePin.addEventListener('mouseup', onImgUploadScaleUp);
   });
 
   var form = document.querySelector('.img-upload__form');

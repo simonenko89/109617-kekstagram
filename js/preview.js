@@ -18,28 +18,28 @@
   var onPictureBlockClick = function (evt) {
     var clickedSrc = evt.target.src;
     var clickedLikes = '';
-    var clickedCommentsCnt = '';
+    var clickedCommentsCount = '';
 
     if (evt.target.parentElement.querySelector('.picture__stat--likes')) {
       clickedLikes = evt.target.parentElement.querySelector('.picture__stat--likes').textContent;
     }
 
     if (evt.target.parentElement.querySelector('.picture__stat--comments')) {
-      clickedCommentsCnt = evt.target.parentElement.querySelector('.picture__stat--comments').textContent;
+      clickedCommentsCount = evt.target.parentElement.querySelector('.picture__stat--comments').textContent;
     }
 
-    if (clickedSrc && clickedLikes && clickedCommentsCnt) {
+    if (clickedSrc && clickedLikes && clickedCommentsCount) {
       bigPicture.classList.remove('hidden');
       document.querySelector('body').classList.add('modal-open');
       document.addEventListener('keydown', onBigPictureEscPress);
 
       bigPicture.querySelector('.big-picture__img').children[0].src = clickedSrc;
       bigPicture.querySelector('.likes-count').textContent = clickedLikes;
-      bigPicture.querySelector('.comments-count').textContent = clickedCommentsCnt;
+      bigPicture.querySelector('.comments-count').textContent = clickedCommentsCount;
 
-      for (var i = 0; i < window.picture.pictureList.length; i++) {
-        if (clickedSrc.match(window.picture.pictureList[i].url)) {
-          var currentPictureElement = window.picture.pictureList[i];
+      for (var i = 0; i < window.picture.picturesList.length; i++) {
+        if (clickedSrc.match(window.picture.picturesList[i].url)) {
+          var currentPictureElement = window.picture.picturesList[i];
         }
       }
 
