@@ -202,25 +202,17 @@
         currentPinRatio = 0;
       }
       scalePin.style.left = currentPinRatio + '%';
+      scalePinValue.value = currentPinRatio;
+      getFilterStyle(getCurrentFilter(), scalePinValue.value);
       imgUploadScale.querySelector('.scale__level').style.width = currentPinRatio + '%';
     };
 
-    var onImgUploadScaleUp = function (upEvt) {
-      var currentPinX = upEvt.clientX;
-      var currentPinRatio = getСurrentPinRatio(currentPinX);
-      if (currentPinRatio > 100) {
-        currentPinRatio = 100;
-      } else if (currentPinRatio < 0) {
-        currentPinRatio = 0;
-      }
-      scalePinValue.value = currentPinRatio;
-      getFilterStyle(getCurrentFilter(), scalePinValue.value);
-
+    var onImgUploadScaleUp = function () {
       document.removeEventListener('mousemove', onImgUploadScaleMove);
     };
 
     document.addEventListener('mousemove', onImgUploadScaleMove);
-    scalePin.addEventListener('mouseup', onImgUploadScaleUp);
+    document.addEventListener('mouseup', onImgUploadScaleUp);
   });
 
   var form = document.querySelector('.img-upload__form');
