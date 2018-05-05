@@ -37,9 +37,9 @@
       bigPicture.querySelector('.likes-count').textContent = clickedLikes;
       bigPicture.querySelector('.comments-count').textContent = clickedCommentsCount;
 
-      for (var i = 0; i < window.picture.picturesList.length; i++) {
-        if (clickedSrc.match(window.picture.picturesList[i].url)) {
-          var currentPictureElement = window.picture.picturesList[i];
+      for (var i = 0; i < window.picture.pictureLists.length; i++) {
+        if (clickedSrc.match(window.picture.pictureLists[i].url)) {
+          var currentPictureElement = window.picture.pictureLists[i];
         }
       }
 

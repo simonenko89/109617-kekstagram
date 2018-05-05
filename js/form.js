@@ -120,7 +120,7 @@
 
   // Валидация формы
   var submitFormButton = document.querySelector('.img-upload__submit');
-  var hashtagsList = document.querySelector('.text__hashtags');
+  var hashtagList = document.querySelector('.text__hashtags');
   var textComment = document.querySelector('.text__description');
 
   var isSimilarElements = function (checkingArray) {
@@ -137,21 +137,21 @@
   };
 
   var getTagsValidityError = function (checkingTagString) {
-    var tagsList = checkingTagString.split(' ');
+    var tagLists = checkingTagString.split(' ');
 
-    if (tagsList.length > 5) {
+    if (tagLists.length > 5) {
       return 'Больше 5 тэгов';
     }
-    if (isSimilarElements(tagsList)) {
+    if (isSimilarElements(tagLists)) {
       return 'Повторяющиеся тэги';
     }
 
-    for (var l = 0; l < tagsList.length; l++) {
-      if (tagsList[l].charAt(0) !== '#' && tagsList[l].length > 0) {
+    for (var l = 0; l < tagLists.length; l++) {
+      if (tagLists[l].charAt(0) !== '#' && tagLists[l].length > 0) {
         return 'Не хватает # в начале тэга';
-      } else if (!tagsList[l].charAt(1) && tagsList[l].length > 0) {
+      } else if (!tagLists[l].charAt(1) && tagLists[l].length > 0) {
         return 'Одна решетка - это не тэг';
-      } else if (tagsList[l].length > 20) {
+      } else if (tagLists[l].length > 20) {
         return 'Больше 20 символов в тэге';
       }
     }
@@ -160,14 +160,14 @@
   };
 
   var onClickSubmitFormButton = function () {
-    if (getTagsValidityError(hashtagsList.value)) {
-      hashtagsList.setCustomValidity(getTagsValidityError(hashtagsList.value));
+    if (getTagsValidityError(hashtagList.value)) {
+      hashtagList.setCustomValidity(getTagsValidityError(hashtagList.value));
     } else {
-      hashtagsList.setCustomValidity('');
+      hashtagList.setCustomValidity('');
     }
   };
 
-  hashtagsList.addEventListener('focus', function () {
+  hashtagList.addEventListener('focus', function () {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
   });
 

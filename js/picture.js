@@ -28,18 +28,18 @@
   };
 
   var onSuccess = function (data) {
-    var picturesList = [];
+    var pictureLists = [];
     renderPictureBlock(data);
 
     for (var i = 0; i < 25; i++) {
-      picturesList[i] = {
+      pictureLists[i] = {
         url: data[i].url,
         likes: data[i].likes,
         comments: data[i].comments
       };
     }
 
-    window.picture.picturesList = picturesList;
+    window.picture.pictureLists = pictureLists;
 
     imageFilters.classList.remove('img-filters--inactive');
   };
@@ -79,40 +79,40 @@
   recommendedFilter.addEventListener('click', function () {
     cleanPictureBlock();
     setActiveClass(recommendedFilter);
-    debounce(renderPictureBlock, window.picture.picturesList);
+    debounce(renderPictureBlock, window.picture.pictureLists);
   });
 
   popularFilter.addEventListener('click', function () {
     cleanPictureBlock();
     setActiveClass(popularFilter);
 
-    var newPicturesList = window.picture.picturesList.slice().sort(function (first, second) {
+    var newPictureLists = window.picture.pictureLists.slice().sort(function (first, second) {
       return second.likes - first.likes;
     });
 
-    debounce(renderPictureBlock, newPicturesList);
+    debounce(renderPictureBlock, newPictureLists);
   });
 
   discussedFilter.addEventListener('click', function () {
     cleanPictureBlock();
     setActiveClass(discussedFilter);
 
-    var newPicturesList = window.picture.picturesList.slice().sort(function (first, second) {
+    var newPictureLists = window.picture.pictureLists.slice().sort(function (first, second) {
       return second.comments.length - first.comments.length;
     });
 
-    debounce(renderPictureBlock, newPicturesList);
+    debounce(renderPictureBlock, newPictureLists);
   });
 
   randomFilter.addEventListener('click', function () {
     cleanPictureBlock();
     setActiveClass(randomFilter);
 
-    var newPicturesList = window.picture.picturesList.slice().sort(function () {
+    var newPictureLists = window.picture.pictureLists.slice().sort(function () {
       return Math.random() - Math.random();
     });
 
-    debounce(renderPictureBlock, newPicturesList);
+    debounce(renderPictureBlock, newPictureLists);
   });
 
 })();
