@@ -23,7 +23,7 @@
     return 'none';
   };
 
-  var getFilterStyle = function (effectName, ratio) {
+  var setFilterStyle = function (effectName, ratio) {
     scalePinBlock.classList.remove('hidden');
 
     if (effectName === 'chrome') {
@@ -37,8 +37,13 @@
     } else if (effectName === 'heat') {
       uploadPreview.style.filter = 'brightness(' + 0.03 * ratio + ')';
     } else {
+      uploadPreview.style.filter = 'none';
       scalePinBlock.classList.add('hidden');
     }
+
+    scalePinValue.value = ratio;
+    scalePin.style.left = ratio + '%';
+    imgUploadScale.querySelector('.scale__level').style.width = ratio + '%';
   };
 
   var onUploadOverlayEscPress = function (evt) {
@@ -52,7 +57,7 @@
     document.querySelector('body').classList.add('modal-open');
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadPreview.style.transform = 'scale(1)';
-    getFilterStyle(getCurrentFilter(), scalePinValue.value);
+    setFilterStyle(getCurrentFilter(), scalePinValue.value);
   };
 
   var closeUploadOverlay = function () {
@@ -114,7 +119,7 @@
       var newEffect = 'effects__preview--' + evt.target.value;
       uploadPreview.classList.add(newEffect);
 
-      getFilterStyle(evt.target.value, scalePinValue.value);
+      setFilterStyle(evt.target.value, 100);
     });
   }
 
@@ -201,10 +206,8 @@
       } else if (currentPinRatio < 0) {
         currentPinRatio = 0;
       }
-      scalePin.style.left = currentPinRatio + '%';
-      scalePinValue.value = currentPinRatio;
-      getFilterStyle(getCurrentFilter(), scalePinValue.value);
-      imgUploadScale.querySelector('.scale__level').style.width = currentPinRatio + '%';
+
+      setFilterStyle(getCurrentFilter(), currentPinRatio);
     };
 
     var onImgUploadScaleUp = function () {
